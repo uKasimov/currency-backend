@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Currency {
+  id            Int            @id @default(autoincrement())
+  cbrId         String         @unique
+  name          String
+  nominal       Int
+  code          String
+  numCode       Int
+  exchangeRates ExchangeRate[]
+}
+
+model ExchangeRate {
+  id           Int      @id @default(autoincrement())
+  currencyId   String
+  currency     Currency @relation(fields: [currencyId], references: [cbrId])
+  exchangeRate Float
+  vunitRate    Float
+  date         String
+}
+
+enum Role {
+  ADMIN
+  USER
+}

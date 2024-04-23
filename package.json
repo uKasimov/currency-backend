@@ -1,0 +1,76 @@
+{
+  "name": "currency-rate",
+  "version": "0.0.1",
+  "description": "Currency service backend",
+  "main": "src/main.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "cross-env NODE_ENV=test jest -i test/**/*.spec.ts",
+    "coverage": "cross-env NODE_ENV=test jest test/**/*.spec.ts --coverage",
+    "lint": "eslint . --ext .ts --quiet && prettier --check .",
+    "lint:fix": "eslint . --ext .ts --fix --quiet && prettier --write .",
+    "dev": "cross-env NODE_ENV=dev tsx watch src/main.ts",
+    "prod": "npm run build && cross-env NODE_ENV=prod node dist/src/main.js"
+  },
+  "author": "ukasimov",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.6.1",
+    "@types/cron": "^2.4.0",
+    "@types/xml2js": "^0.4.14",
+    "axios": "^1.6.8",
+    "bcrypt": "^5.1.0",
+    "config": "^3.3.8",
+    "cron": "^3.1.7",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "npx": "^10.2.2",
+    "xml2js": "^0.6.2",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/config": "^3.3.0",
+    "@types/express": "^4.17.14",
+    "@types/jest": "^29.2.3",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.28.0",
+    "jest": "^29.3.1",
+    "jest-mock-extended": "^3.0.1",
+    "prettier": "^2.8.0",
+    "prisma": "^4.6.1",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "tsx": "^3.12.1",
+    "typescript": "^4.9.3"
+  },
+  "packageManager": "^npm@8.1.0",
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "ignorePatterns": [
+      "node_modules/",
+      "dist/"
+    ]
+  },
+  "jest": {
+    "preset": "ts-jest/presets/default",
+    "clearMocks": true,
+    "setupFilesAfterEnv": [
+      "./test/mocks/prisma.mock.ts"
+    ]
+  }
+}

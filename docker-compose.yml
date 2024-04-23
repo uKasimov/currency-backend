@@ -1,0 +1,39 @@
+version: "3"
+services:
+  mysql_db:
+    image: mysql:8
+    container_name: "backend-db"
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: currency
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    volumes:
+      - ./dbdata:/var/lib/mysql/
+      - ./my.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf # config mysql server
+    networks:
+      - backend
+
+  express:
+    image: node:20
+    container_name: "backend"
+    build: .
+    working_dir: /home/node/app
+    volumes:
+      - ./:/home/node/app
+    depends_on:
+      - mysql_db
+    environment:
+      DATABASE_URL: mysql://root:root@mysql_db:3306/currency=900
+      JWT_SECRET: "pssst!ssssecret"
+    ports:
+      - "3001:8080"
+    command: sh -c "npm install && npm run dev"
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
